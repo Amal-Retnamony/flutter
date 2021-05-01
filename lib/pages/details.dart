@@ -15,17 +15,23 @@ class Details extends StatelessWidget {
       appBar: AppBar(
         title: Text('DETAILS'),
         centerTitle: true,
-        backgroundColor: Colors.deepOrangeAccent,
+        backgroundColor: Colors.blue,
       ),
       body: SingleChildScrollView(child: Column(
         children: [
-          Image(image: NetworkImage(detailsData['urlToImage'])),
           Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Text(detailsData['content'], style: TextStyle(
-              fontSize: 14,
+            padding: const EdgeInsets.fromLTRB(0, 8, 0, 8),
+            child: Text(detailsData['title'], style: TextStyle(
+              fontSize: 16,
+              fontWeight: FontWeight.bold,
+              letterSpacing: 2,
             ),),
           ),
+          Image(image: NetworkImage(detailsData['urlToImage']),),
+          SizedBox(height: 8),
+          Text(detailsData['content'], style: TextStyle(
+            fontSize: 14,
+          ),),
         ],
       )),
       floatingActionButton: RaisedButton(
