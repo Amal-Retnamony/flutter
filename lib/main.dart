@@ -1,11 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:newsletter/models/data.dart';
+import 'package:newsletter/services/getData.dart';
+import 'package:provider/provider.dart';
 import 'pages/newsList.dart';
 import 'pages/profile.dart';
-import 'package:http/http.dart';
-import 'dart:convert';
 
-void main() => runApp(MaterialApp(
-  home: Home(),
+void main() => runApp(
+      ChangeNotifierProvider(
+         create: (_) => Data(),
+         child: MaterialApp(
+           home: Home(),
+  ),
 ));
 
 class Home extends StatefulWidget {
@@ -20,9 +25,17 @@ class _HomeState extends State<Home> {
       currentIndex = index;
     });
   }
+  @override
+  void initState() {
+    super.initState();
+    var newsData = Provider.of<Data>(context, listen: false);
+    GetData().getDataApi().then((value) {
+      newsData.addList(value);
+    });
+  }
   List<Widget> childrenList = [
-    NewsList(),
-    NewsList(),
+    NewsList(false),
+    NewsList(true),
     Profile(),
   ];
   @override

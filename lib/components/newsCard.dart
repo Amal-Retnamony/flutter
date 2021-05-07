@@ -2,13 +2,17 @@ import 'package:flutter/material.dart';
 import 'package:newsletter/pages/details.dart';
 
 class NewsCard extends StatelessWidget{
-  Map data = {};
-  NewsCard({this.data});
+  final Map data;
+  final Function onPress;
+  final num selectedIndex;
+  NewsCard({this.data, this.onPress, this.selectedIndex});
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        Navigator.push(context, MaterialPageRoute(builder: (context) => Details(detailsData: data)));
+        Navigator.of(context).push(MaterialPageRoute(builder: (context) {
+          return Details(selectedIndex);
+        }));
       },
       child: Container(
         height: 150,
@@ -32,7 +36,13 @@ class NewsCard extends StatelessWidget{
                         fontSize: 14,
                         fontWeight: FontWeight.bold,
                       ))),
-                      IconButton(icon: Icon(Icons.favorite_outline), onPressed: (){}),
+                      IconButton(
+                          icon: data['favorite'] ? Icon(Icons.favorite) : Icon(Icons.favorite_border),
+                          onPressed: (){
+                            onPress();
+                          },
+                          color: data['favorite'] ? Colors.blue : Colors.black,
+                      ),
                     ],
                   ),
                 ),
