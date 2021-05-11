@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:newsletter/models/data.dart';
 import 'package:provider/provider.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 class Details extends StatelessWidget {
   final selectedIndex;
@@ -31,7 +30,7 @@ class Details extends StatelessWidget {
               IconButton(
                 icon: newsData.all[selectedIndex]['favorite'] ? Icon(Icons.favorite) : Icon(Icons.favorite_border),
                 onPressed: (){
-                  newsData.updateList(selectedIndex);
+                  newsData.updateList(newsData.all[selectedIndex]);
                 },
                 color: newsData.all[selectedIndex]['favorite'] ? Colors.blue : Colors.black,
               ),

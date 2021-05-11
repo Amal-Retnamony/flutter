@@ -12,34 +12,20 @@ class Data extends ChangeNotifier{
     notifyListeners();
   }
 
-
-  void updateList(index) async {
-    print(index);
-    print([...allList.map((article) {
-      if (allList.indexOf(article) == index) {
-        return  {...article, 'favorite': !allList[index]['favorite']};
-      } else {
-        return  article;
-      }
-    })]);
+  void updateList(selectedNews) async {
+    int favoriteIndex = favoriteList.indexWhere((item) => item['title'] == selectedNews['title']);
     allList = [...allList.map((article) {
-      if (allList.indexOf(article) == index) {
-        return  {...article, 'favorite': !allList[index]['favorite']};
+      if (article['title'] == selectedNews['title']) {
+        return  {...article, 'favorite': !article['favorite']};
       } else {
         return  article;
       }
     })];
-    notifyListeners();
-  }
-
-
-  void updateFavorite(item) {
-    favoriteList.add(item);
-    notifyListeners();
-  }
-
-  void removeFavorite(index) {
-    favoriteList.removeAt(index);
+    if (favoriteIndex == -1) {
+      favoriteList.add({...selectedNews, 'favorite': true});
+    } else {
+      favoriteList.removeAt(favoriteIndex);
+    }
     notifyListeners();
   }
 }

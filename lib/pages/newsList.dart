@@ -15,27 +15,15 @@ class NewsList extends StatelessWidget {
         backgroundColor: Colors.blue,
       ),
       body: Consumer<Data>(builder: (context, newsData, child) {
-        num favLength = 0;
-        List newsList = isFavorite ? [...newsData.allList.map((item) {
-        if (item['favorite']) {
-            favLength++;
-            return item;
-          } else {
-            return {'title': ''};
-          }
-        })] : newsData.allList;
+        List newsList = isFavorite ? newsData.favorites : newsData.allList;
         return Container(
           color: Colors.grey[300],
           child:
-              (!isFavorite ? newsList.length > 0 : favLength > 0)
+              newsList.length > 0
               ? ListView.builder(
-              itemCount: isFavorite ? favLength : newsList.length,
+              itemCount: newsList.length,
               itemBuilder: (context, index) {
-                if (!newsList[index]['title'].isEmpty) {
-                  return NewsCard(data: newsList[index], onPress: () {newsData.updateList(index);}, selectedIndex: index,);
-                } else {
-                  return null;
-                }
+                return NewsCard(data: newsList[index], onPress: () {newsData.updateList(newsList[index]);}, selectedIndex: index,);
               })
               : Center(child: const Text('No items')),
         );

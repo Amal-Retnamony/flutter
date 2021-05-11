@@ -20,6 +20,7 @@ class Home extends StatefulWidget {
 
 class _HomeState extends State<Home> {
   int currentIndex = 0;
+  bool isLoading = true;
   void handleNavTap(int index) {
     this.setState(() {
       currentIndex = index;
@@ -31,6 +32,9 @@ class _HomeState extends State<Home> {
     var newsData = Provider.of<Data>(context, listen: false);
     GetData().getDataApi().then((value) {
       newsData.addList(value);
+      this.setState(() {
+        isLoading = false;
+      });
     });
   }
   List<Widget> childrenList = [
@@ -41,7 +45,9 @@ class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: childrenList[currentIndex],
+      body: isLoading ?
+             Center(child: CircularProgressIndicator(backgroundColor: Colors.grey, strokeWidth: 8.0,))
+            : childrenList[currentIndex],
       bottomNavigationBar: BottomNavigationBar(
         onTap: handleNavTap,
         currentIndex: currentIndex,

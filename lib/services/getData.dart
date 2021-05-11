@@ -5,7 +5,11 @@ import 'dart:convert';
 
 class GetData {
    Future<Map> getDataApi() async {
-   Response data = await get(Uri.parse('https://newsapi.org/v2/top-headlines?country=us&category=business&apiKey=2fff597338b34e66a277888815e454a5'));
-   return jsonDecode(data.body);
+     Response response = await get(Uri.parse('https://newsapi.org/v2/top-headlines?country=us&category=business&apiKey=2fff597338b34e66a277888815e454a5'));
+     if (response.statusCode == 200) {
+       return jsonDecode(response.body);
+     } else {
+       throw Exception('Failed to get data');
+     }
   }
 }
